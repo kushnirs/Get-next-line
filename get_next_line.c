@@ -6,7 +6,7 @@
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 00:33:51 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/27 17:20:00 by skushnir         ###   ########.fr       */
+/*   Updated: 2017/11/27 20:49:46 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ int	get_next_line(const int fd, char **line)
 	char			*buff;
 	static t_list	*descr;
 
-	i = 0;
 	if (fd == -1)
-		return (-1);
+			return (-1);
+	if (descr)
+		while (descr->content_size != (size_t)fd && descr)
+			descr = descr->next;
+	i = 0;
 	buff = ft_strnew(BUFF_SIZE);
 	read(fd, buff, BUFF_SIZE);
-	while (buff[i] != '\n')
+	while (buff[i] != '\n' && i < BUFF_SIZE)
 		i++;
 	descr = ft_lstnew((void*)(ft_strsub(buff, 0, i)), i);
 	descr->content_size = (size_t)fd;
@@ -43,6 +46,8 @@ int	main(int argc, char **argv)
 
 	line = (char**)malloc(sizeof(char*) * 5);
 	fd = open(argv[1], O_RDONLY);
+	printf("result= %d\n", get_next_line(fd, line));
+	printf("%s\n\n-------------\n", line[0]);
 	printf("result= %d\n", get_next_line(fd, line));
 	printf("%s\n", line[0]);
 }
