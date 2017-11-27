@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 00:36:06 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/27 20:10:46 by skushnir         ###   ########.fr       */
+/*   Created: 2017/10/29 19:30:10 by skushnir          #+#    #+#             */
+/*   Updated: 2017/10/30 13:41:30 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-#include <fcntl.h>
-#include "libft/libft.h"
-#define BUFF_SIZE 1
+char		*ft_strnew(size_t size)
+{
+	unsigned int	i;
+	char			*pointer;
 
-int get_next_line(const int fd, char **line);
-
-# endif
+	if ((pointer = malloc(size + 1)) == NULL)
+		return (NULL);
+	i = -1;
+	while (++i <= size)
+		pointer[i] = 0;
+	return (pointer);
+}

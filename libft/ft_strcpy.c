@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 00:36:06 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/27 20:10:46 by skushnir         ###   ########.fr       */
+/*   Created: 2017/10/28 00:40:07 by skushnir          #+#    #+#             */
+/*   Updated: 2017/10/31 13:49:20 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-#include <fcntl.h>
-#include "libft/libft.h"
-#define BUFF_SIZE 1
+char		*ft_strcpy(char *destptr, const char *srcptr)
+{
+	int		i;
 
-int get_next_line(const int fd, char **line);
-
-# endif
+	i = -1;
+	while (srcptr[++i])
+		destptr[i] = srcptr[i];
+	destptr[i] = 0;
+	return (destptr);
+}

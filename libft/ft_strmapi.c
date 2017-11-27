@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 00:36:06 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/27 20:10:46 by skushnir         ###   ########.fr       */
+/*   Created: 2017/10/30 00:16:32 by skushnir          #+#    #+#             */
+/*   Updated: 2017/10/31 12:19:07 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-#include <fcntl.h>
-#include "libft/libft.h"
-#define BUFF_SIZE 1
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+{
+	int		i;
+	char	*point;
 
-int get_next_line(const int fd, char **line);
-
-# endif
+	if (f == NULL || s == NULL)
+		return (NULL);
+	if ((point = ft_strnew(ft_strlen(s))) == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		point[i] = f(i, s[i]);
+		i++;
+	}
+	point[i] = 0;
+	return (point);
+}

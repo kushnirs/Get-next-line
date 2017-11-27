@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 00:36:06 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/27 20:10:46 by skushnir         ###   ########.fr       */
+/*   Created: 2017/10/28 07:52:52 by skushnir          #+#    #+#             */
+/*   Updated: 2017/10/28 09:02:29 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-#include <fcntl.h>
-#include "libft/libft.h"
-#define BUFF_SIZE 1
+char	*ft_strrchr(const char *string, int symbol)
+{
+	int i;
 
-int get_next_line(const int fd, char **line);
-
-# endif
+	i = 0;
+	while (string[i])
+		i++;
+	while (i >= 0)
+	{
+		if (string[i] == symbol)
+			return (&((char*)string)[i]);
+		i--;
+	}
+	return (NULL);
+}

@@ -1,22 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 00:36:06 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/27 20:10:46 by skushnir         ###   ########.fr       */
+/*   Created: 2017/10/31 10:31:22 by skushnir          #+#    #+#             */
+/*   Updated: 2017/10/31 10:32:54 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-#include <fcntl.h>
-#include "libft/libft.h"
-#define BUFF_SIZE 1
+void	ft_putnbr_fd(int n, int fd)
+{
+	int				a;
+	int				c;
+	unsigned int	b;
 
-int get_next_line(const int fd, char **line);
-
-# endif
+	b = n;
+	if (n < 0)
+	{
+		b = n * -1;
+		write(fd, "-", 1);
+	}
+	a = 1;
+	while ((b / a) >= 10)
+		a = a * 10;
+	while (a > 0)
+	{
+		c = b / a;
+		b = b - c * a;
+		c = c + 48;
+		a = a / 10;
+		write(fd, &c, 1);
+	}
+}
