@@ -6,7 +6,7 @@
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 00:33:51 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/27 20:49:46 by skushnir         ###   ########.fr       */
+/*   Updated: 2017/11/28 20:09:08 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,29 @@
 
 int	get_next_line(const int fd, char **line)
 {
-	int i;
+	int				i;
 	char			*buff;
-	static t_list	*descr;
+	t_list			*tmp;
+	static t_list	*descr = NULL;
 
-	if (fd == -1)
-			return (-1);
-	if (descr)
-		while (descr->content_size != (size_t)fd && descr)
-			descr = descr->next;
-	i = 0;
 	buff = ft_strnew(BUFF_SIZE);
-	read(fd, buff, BUFF_SIZE);
-	while (buff[i] != '\n' && i < BUFF_SIZE)
-		i++;
-	descr = ft_lstnew((void*)(ft_strsub(buff, 0, i)), i);
-	descr->content_size = (size_t)fd;
-	printf("i= %d\n", i);
-	printf("%s\n", (char*)descr->content);
-	printf("%d\n", (int)descr->content_size);
-	*line = ft_strnew(i);
-	ft_strcpy(*line, (char*)descr->content);
+	if (fd < 0 || !line || (i = read(fd, buff, BUFF_SIZE)) < 0)
+			return (-1);
+	*line = 0;
+	tmp = NULL;
+	tmp = descr;
+	// while (tmp->content_size != fd && tmp)
+	//  	tmp = tmp->next;
+	tmp = ft_lstnew((ft_strcpy(ft_strnew(BUFF_SIZE), buff)), ft_strlen(buff));
+	tmp->content_size = (size_t)fd;
+	// if (!ft_strchr(buff, '\n'))
+	//  	return (ft_join(tmp, buff , line, i));
+	*line = ft_strnew(i - ft_strlen(ft_strchr(buff, '\n')));
+	ft_strncpy(*line, buff, i - ft_strlen(ft_strchr(buff, '\n')));
+	free(tmp->content);
+	i = ft_strlen(ft_strchr(buff, '\n'));
+	tmp->content = ft_strcpy(ft_strnew(i), ft_strchr(buff, '\n'));
+	free(buff);
 	return (0);
 }
 
@@ -46,8 +48,10 @@ int	main(int argc, char **argv)
 
 	line = (char**)malloc(sizeof(char*) * 5);
 	fd = open(argv[1], O_RDONLY);
-	printf("result= %d\n", get_next_line(fd, line));
-	printf("%s\n\n-------------\n", line[0]);
-	printf("result= %d\n", get_next_line(fd, line));
-	printf("%s\n", line[0]);
+	printf("result= %d", get_next_line(fd, line));
+	printf("\n-------------\n%s\n", line[0]);
+		printf("result= %d", get_next_line(fd, line));
+	printf("\n-------------\n%s\n", line[0]);
+	// printf("result= %d\n", get_next_line(fd, line));
+	// printf("%s\n", line[0]);
 }
