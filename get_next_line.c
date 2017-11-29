@@ -6,7 +6,7 @@
 /*   By: sergee <sergee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 00:33:51 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/29 22:11:58 by sergee           ###   ########.fr       */
+/*   Updated: 2017/11/29 23:23:18 by sergee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,16 @@ int	get_next_line(const int fd, char **line)
 			return (-1);
 	tmp = ft_check_fd(fd, &descr);
 	*line = 0;
-	if (!ft_read_fd(fd, tmp, buff))
+	if (!ft_read_fd(fd, tmp, buff) && !ft_strcmp(tmp->content, ""))
 		return (0);
 	i = (int)ft_strlen(tmp->content);
-	*line = ft_strnew(i - ft_strlen(ft_strchr(tmp->content, '\n')));
-	ft_strncpy(*line, tmp->content, i - ft_strlen(ft_strchr(tmp->content, '\n')));
+	if (ft_strchr(tmp->content, '\n'))
+		i = i - ft_strlen(ft_strchr(tmp->content, '\n'));
+	*line = ft_strnew(i);
+	ft_strncpy(*line, tmp->content, i);
 	tm_ = tmp->content;
-	tmp->content = (ft_strdup(ft_strchr(tmp->content, '\n')) + 1);
-	//ft_memdel((void**)tm_);
+	tmp->content = (ft_strdup((char*)tmp->content + i) + 1);
+	ft_memdel((void**)tm_);
 	return (1);
 }
 
@@ -72,7 +74,7 @@ int	main(int argc, char **argv)
 
 	line = (char**)malloc(sizeof(char*) * 5);
 	fd = open(argv[1], O_RDONLY);
-	// int fd1 = open(argv[2], O_RDONLY);
+	int fd1 = open(argv[2], O_RDONLY);
 	// printf("result= %d\n", get_next_line(fd, line));
 	// printf("%s\n\n-------------\n", line[0]);
 	// printf("result= %d\n", get_next_line(fd, line));
