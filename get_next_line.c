@@ -6,7 +6,7 @@
 /*   By: sergee <sergee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 00:33:51 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/29 21:54:08 by sergee           ###   ########.fr       */
+/*   Updated: 2017/11/29 22:11:58 by sergee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_read_fd(int fd, t_list *tmp, char *buff)
 		tmp->content = ft_strjoin(tmp->content, buff);
 		// ft_memdel((void**)&tm_);
 	}
-	printf("%d\n", fin);
 	return (fin);
 }
 
@@ -62,9 +61,8 @@ int	get_next_line(const int fd, char **line)
 	ft_strncpy(*line, tmp->content, i - ft_strlen(ft_strchr(tmp->content, '\n')));
 	tm_ = tmp->content;
 	tmp->content = (ft_strdup(ft_strchr(tmp->content, '\n')) + 1);
-	printf("ostatok\n%s\n", tmp->content);
 	//ft_memdel((void**)tm_);
-	return ((*line && **line) ? 1 : 0);
+	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -74,19 +72,19 @@ int	main(int argc, char **argv)
 
 	line = (char**)malloc(sizeof(char*) * 5);
 	fd = open(argv[1], O_RDONLY);
-	int fd1 = open(argv[2], O_RDONLY);
-	printf("result= %d\n", get_next_line(fd, line));
-	printf("%s\n\n-------------\n", line[0]);
-	printf("result= %d\n", get_next_line(fd, line));
-	printf("%s\n\n-------------\n", line[0]);
-	printf("result= %d\n", get_next_line(fd, line));
-	printf("%s\n", line[0]);
-	printf("result= %d\n", get_next_line(fd, line));
-	printf("%s\n", line[0]);
-	// while (get_next_line(fd, line))
-	// {
-	// 	printf("%s\n", line[0] );
-	// }
+	// int fd1 = open(argv[2], O_RDONLY);
+	// printf("result= %d\n", get_next_line(fd, line));
+	// printf("%s\n\n-------------\n", line[0]);
+	// printf("result= %d\n", get_next_line(fd, line));
+	// printf("%s\n\n-------------\n", line[0]);
+	// printf("result= %d\n", get_next_line(fd, line));
+	// printf("%s\n", line[0]);
+	// printf("result= %d\n", get_next_line(fd, line));
+	// printf("%s\n", line[0]);
+	while (get_next_line(fd, line))
+	{
+		printf("%s\n", line[0] );
+	}
 }
 
 
