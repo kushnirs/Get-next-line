@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skushnir <skushnir@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/05 21:43:22 by skushnir          #+#    #+#             */
-/*   Updated: 2017/11/05 22:46:49 by skushnir         ###   ########.fr       */
+/*   Updated: 2017/11/30 12:59:52 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 		return (NULL);
 	if (content)
 	{
-		if ((begin->content =
-		(unsigned char*)malloc(sizeof(unsigned char))) == NULL)
+		if ((begin->content = malloc(content_size)) == NULL)
 			return (NULL);
-		begin->content = ft_memcpy(begin->content, content, content_size + 1);
+		begin->content = ft_memcpy(begin->content, content, content_size);
 		begin->content_size = content_size;
 	}
 	else

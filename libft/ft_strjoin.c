@@ -6,7 +6,7 @@
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 00:58:32 by skushnir          #+#    #+#             */
-/*   Updated: 2017/10/30 14:15:43 by skushnir         ###   ########.fr       */
+/*   Updated: 2017/11/30 15:01:23 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	i = ft_strlen(s1);
 	a = i;
 	j = ft_strlen(s2);
-	if ((str = (char*)malloc(i + j + 1)) == NULL)
+	if ((str = ft_memalloc(i + j + 1)) == NULL)
 		return (NULL);
 	i = -1;
 	while (s1[++i])

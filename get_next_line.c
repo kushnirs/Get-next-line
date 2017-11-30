@@ -3,95 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergee <sergee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 00:33:51 by sergee            #+#    #+#             */
-/*   Updated: 2017/11/29 23:23:18 by sergee           ###   ########.fr       */
+/*   Created: 2017/11/30 13:07:28 by skushnir          #+#    #+#             */
+/*   Updated: 2017/11/30 15:14:36 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-int	ft_read_fd(int fd, t_list *tmp, char *buff)
+int		ft_read_fd(int fd, t_list *tmp, char *buff)
 {
-	int	fin;
-	t_list			*tm_;
+	int		fin;
+	char	*tm_;
 
-	while (!ft_strchr(tmp->content, '\n') && (fin = read(fd, buff, BUFF_SIZE)))
+	fin = 0;
+	while (!ft_strchr(tmp->content, '\n')
+		&& (fin = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		tm_ = tmp;
+		tm_ = tmp->content;
 		buff[fin] = 0;
-		tmp->content = ft_strjoin(tmp->content, buff);
-		// ft_memdel((void**)&tm_);
+		if (!(tmp->content = ft_strjoin(tm_, buff)))
+			return (-1);
+		ft_memdel((void**)&tm_);
 	}
 	return (fin);
 }
 
-t_list *ft_check_fd(int fd, t_list **descr)
+t_list	*ft_check_fd(int fd, t_list **descr)
 {
+	t_list	*tmp;
+
 	if (*descr)
 		while (*descr)
 		{
 			if ((int)(*descr)->content_size == fd)
 				return (*descr);
-			*descr = (*descr)->next;
+			descr = &(*descr)->next;
 		}
-	ft_lstadd(descr, ft_lstnew("", 0));
+	if (!(tmp = ft_lstnew("", 1)))
+		return (NULL);
+	ft_lstadd(descr, tmp);
 	(*descr)->content_size = fd;
 	return (*descr);
 }
 
-int	get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
 	int				i;
 	char			buff[BUFF_SIZE + 1];
 	t_list			*tmp;
-	t_list			*tm_;
-	static t_list	*descr = NULL;
+	char			*tm_;
+	static t_list	*descr;
 
-	if (fd < 0 || !line || read(fd, buff, 0) < 0)
-			return (-1);
-	tmp = ft_check_fd(fd, &descr);
-	*line = 0;
-	if (!ft_read_fd(fd, tmp, buff) && !ft_strcmp(tmp->content, ""))
+	if (fd < 0 || !line || !(tmp = ft_check_fd(fd, &descr))
+		|| ft_read_fd(fd, tmp, buff) == -1)
+		return (-1);
+	*line = NULL;
+	if (!*(char *)tmp->content)
 		return (0);
 	i = (int)ft_strlen(tmp->content);
 	if (ft_strchr(tmp->content, '\n'))
 		i = i - ft_strlen(ft_strchr(tmp->content, '\n'));
-	*line = ft_strnew(i);
-	ft_strncpy(*line, tmp->content, i);
+	if (!(*line = ft_strsub(tmp->content, 0, i)))
+		return (-1);
 	tm_ = tmp->content;
-	tmp->content = (ft_strdup((char*)tmp->content + i) + 1);
-	ft_memdel((void**)tm_);
+	if (!(tmp->content = ft_strdup(tm_ + i + 1)))
+		return (-1);
+	*((char *)tmp->content + ft_strlen(tm_ + i)) = 0;
+	ft_memdel((void **)&tm_);
 	return (1);
 }
-
-int	main(int argc, char **argv)
-{
-	int fd;
-	char **line;
-
-	line = (char**)malloc(sizeof(char*) * 5);
-	fd = open(argv[1], O_RDONLY);
-	int fd1 = open(argv[2], O_RDONLY);
-	// printf("result= %d\n", get_next_line(fd, line));
-	// printf("%s\n\n-------------\n", line[0]);
-	// printf("result= %d\n", get_next_line(fd, line));
-	// printf("%s\n\n-------------\n", line[0]);
-	// printf("result= %d\n", get_next_line(fd, line));
-	// printf("%s\n", line[0]);
-	// printf("result= %d\n", get_next_line(fd, line));
-	// printf("%s\n", line[0]);
-	while (get_next_line(fd, line))
-	{
-		printf("%s\n", line[0] );
-	}
-}
-
-
-
-
-
-
-
