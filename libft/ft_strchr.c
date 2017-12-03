@@ -6,7 +6,7 @@
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 07:31:52 by skushnir          #+#    #+#             */
-/*   Updated: 2017/10/31 14:16:40 by skushnir         ###   ########.fr       */
+/*   Updated: 2017/12/03 15:17:52 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*ft_strchr(const char *string, int symbol)
 {
+	if (!string)
+		return (NULL);
 	while (*string)
 	{
 		if (*string == symbol)

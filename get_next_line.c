@@ -6,14 +6,13 @@
 /*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 13:07:28 by skushnir          #+#    #+#             */
-/*   Updated: 2017/11/30 15:14:36 by skushnir         ###   ########.fr       */
+/*   Updated: 2017/12/03 15:41:40 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-int		ft_read_fd(int fd, t_list *tmp, char *buff)
+static int		ft_read_fd(int fd, t_list *tmp, char *buff)
 {
 	int		fin;
 	char	*tm_;
@@ -31,17 +30,16 @@ int		ft_read_fd(int fd, t_list *tmp, char *buff)
 	return (fin);
 }
 
-t_list	*ft_check_fd(int fd, t_list **descr)
+static t_list	*ft_check_fd(int fd, t_list **descr)
 {
 	t_list	*tmp;
 
-	if (*descr)
-		while (*descr)
-		{
-			if ((int)(*descr)->content_size == fd)
-				return (*descr);
-			descr = &(*descr)->next;
-		}
+	while (*descr)
+	{
+		if ((int)(*descr)->content_size == fd)
+			return (*descr);
+		descr = &(*descr)->next;
+	}
 	if (!(tmp = ft_lstnew("", 1)))
 		return (NULL);
 	ft_lstadd(descr, tmp);
@@ -49,7 +47,7 @@ t_list	*ft_check_fd(int fd, t_list **descr)
 	return (*descr);
 }
 
-int		get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	int				i;
 	char			buff[BUFF_SIZE + 1];
@@ -69,9 +67,9 @@ int		get_next_line(const int fd, char **line)
 	if (!(*line = ft_strsub(tmp->content, 0, i)))
 		return (-1);
 	tm_ = tmp->content;
-	if (!(tmp->content = ft_strdup(tm_ + i + 1)))
+	if (ft_strchr(tm_ + i, '\n') && !(tmp->content = ft_strdup(tm_ + i + 1)))
 		return (-1);
-	*((char *)tmp->content + ft_strlen(tm_ + i)) = 0;
+	ft_bzero(tm_, ft_strlen(tm_));
 	ft_memdel((void **)&tm_);
 	return (1);
 }

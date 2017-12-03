@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skushnir <skushnir@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: skushnir <skushnir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 00:36:26 by skushnir          #+#    #+#             */
-/*   Updated: 2017/11/05 18:02:54 by skushnir         ###   ########.fr       */
+/*   Updated: 2017/12/01 17:04:31 by skushnir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char		*ft_strsub(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
-	if ((i = (char*)malloc(len + 1)) == NULL)
+	if ((i = ft_strnew(len)) == NULL)
 		return (NULL);
 	j = 0;
 	while (j < len)
